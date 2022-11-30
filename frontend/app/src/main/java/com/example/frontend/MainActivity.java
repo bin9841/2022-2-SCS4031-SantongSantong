@@ -3,7 +3,7 @@ package com.example.frontend;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
+import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,54 +13,46 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 
 public class MainActivity extends AppCompatActivity {
-    Button btn_setarea, btn_rqst,btn_test;
+    Button btn_setarea, btn_rqst;
     AlertDialog.Builder builder;
-    String[] area;
-    public static Context context_main;
+    String[] areas;
     public String selected_area;
+    TextView areaView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        areaView = (TextView) findViewById(R.id.slc_area);
+        selected_area = areaView.getText().toString().substring(12,13);
 
-        context_main = this;
-
-        btn_test = findViewById(R.id.testbtn);
-        btn_test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Intent test = new Intent(MainActivity.this, PopupActivity.class);
-                startActivity(test);
-            }
-        });
 
         btn_rqst = findViewById(R.id.detect_request_button);
         btn_rqst.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v1){
                 ClientThread thread = new ClientThread();
                 thread.start();
                 TextView detecting_text = (TextView) findViewById(R.id.detect_text);
-                Log.d(this.getClass().getName(), (String)detecting_text.getText());
                 detecting_text.setText("탐지 중..");
+                Intent pu = new Intent(MainActivity.this, PopupActivity.class);
+                startActivity(pu);
             }
         });
         btn_setarea = findViewById(R.id.set_area_button);
         btn_setarea.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v2) {
                 showDialog();
             }
         });
+
     }
     class ClientThread extends Thread{
         @Override
@@ -73,14 +65,12 @@ public class MainActivity extends AppCompatActivity {
                 ObjectOutputStream outstream = new ObjectOutputStream(socket.getOutputStream());
                 outstream.writeObject("탐지 요청");
                 outstream.flush();
-                Log.d("ClientStream", "Sent to server.");
 
                 ObjectInputStream instream = new ObjectInputStream(socket.getInputStream());
                 Object input = instream.readObject();
 
                 Intent intent = new Intent(MainActivity.this, PopupActivity.class);
                 startActivity(intent);
-                // Log.d("ClientThread", "Received data: " + input);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -88,18 +78,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void showDialog(){
-        area = getResources().getStringArray(R.array.area);
+        areas = getResources().getStringArray(R.array.area);
         builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("근무 지역을 선택하세요");
-        builder.setItems(area, new DialogInterface.OnClickListener() {
+        builder.setItems(areas, new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            Toast.makeText(getApplicationContext(), "요원님의 구역이 "+area[which]+"로 설정되었습니다.", Toast.LENGTH_SHORT).show();
-            TextView areaView = (TextView) findViewById(R.id.slc_area);
-            Log.d(this.getClass().getName(), (String)areaView.getText());
-            selected_area = area[which];
+            Toast.makeText(getApplicationContext(), "요원님의 구역이 "+areas[which]+"로 설정되었습니다.", Toast.LENGTH_SHORT).show();
+            selected_area = areas[which];
             areaView.setText("현재 설정된 근무지 : "+selected_area);
             }
         });

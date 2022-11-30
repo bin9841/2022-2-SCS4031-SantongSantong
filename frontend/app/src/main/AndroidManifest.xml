@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 인터넷 권한 설정 -->
-    <uses-permission android:name="android:permission.INTERNET"/>
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -33,6 +30,10 @@
         <activity android:name=".PopupActivity"
             android:theme="@style/Popuptheme"/>
 
+
 </application>
+
+    <uses-permission android:name="android:permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
 </manifest>
