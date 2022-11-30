@@ -16,7 +16,7 @@ import time
 from abc import ABCMeta, abstractmethod
 
 import sys
-sys.path.append("C:/Users/award/Desktop/workspace/2022-2-SCS4031-SantongSantong/backend/")
+sys.path.append("/home/irteam/2022-2-SCS4031-SantongSantong/backend")
 import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 django.setup()
@@ -29,6 +29,8 @@ from mmcv import Config, DictAction
 from mmcv.runner import load_checkpoint
 
 from mmaction.models import build_detector
+from models.models import Notification
+from models.serializers import NotificationSerializer
 
 try:
     from mmdet.apis import inference_detector, init_detector
@@ -647,10 +649,11 @@ class ClipHelper:
     def detect_drowning(self, task):
         # now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.detect(task)
-        if self.cnt != 0 and self.cnt % 9 == 0:
+        if self.cnt != 0 and self.cnt == 9:
             # cv2.imwrite("./static/"+str(now)+".jpg", task.frames[self.display_inds[0]])
             cv2.imwrite("./static/drowning.jpg", task.frames[self.display_inds[0]])
-            self.cnt = 0
+            data = Notification(area__id=1, pub_date = timezone.now(), img = "./static/drowning.jpg")
+            
 
     def get_output_video_writer(self, path):
         """Return a video writer object.

@@ -10,7 +10,7 @@ from django.dispatch import receiver
 
 import os
 import sys
-sys.path.append("C:/Users/award/Desktop/workspace/2022-2-SCS4031-SantongSantong/backend/")
+sys.path.append("/home/irteam/2022-2-SCS4031-SantongSantong/backend")
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
