@@ -14,6 +14,8 @@ import queue
 import threading
 import time
 from abc import ABCMeta, abstractmethod
+from gtts import gTTS
+import playsound
 
 import sys
 sys.path.append("C:/Users/award/Desktop/workspace/2022-2-SCS4031-SantongSantong/backend/")
@@ -45,6 +47,8 @@ logger = logging.getLogger(__name__)
 url = "https://www.youtube.com/watch?v=nTtBxIYrCtU"
 video = pafy.new(url)
 best = video.getbest(preftype="mp4")
+pool_number = 1
+alarm_name = ''
 
 
 def parse_args():
@@ -644,6 +648,10 @@ class ClipHelper:
                 if len(i) != 0:
                     self.cnt += 1
 
+    def speak(self, text, toslow=True):
+        tts = gTTS(text=text, lang='ko', slow=toslow)
+        tts.save('alarm_pool' + str(pool_number) + '.mp3')
+
     def detect_drowning(self, task):
         # now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.detect(task)
@@ -652,6 +660,10 @@ class ClipHelper:
             # cv2.imwrite("./static/"+str(now)+".jpg", task.frames[self.display_inds[0]])
             cv2.imwrite("./static/drowning.jpg", task.frames[self.display_inds[0]])
             # self.cnt = 0
+            self.speak(str(pool_number) + "번! " + str(pool_number) + "번 풀에서 익수 위험자 발생", toslow=False)
+            playsound.playsound('mp3 저장되는 주소----데모 컴퓨터 기준으로 수정' + 'alarm_pool' + str(pool_number) + '.mp3')
+            playsound.playsound('mp3 저장되는 주소----데모 컴퓨터 기준으로 수정' + 'alarm_pool' + str(pool_number) + '.mp3')
+
 
     def get_output_video_writer(self, path):
         """Return a video writer object.
