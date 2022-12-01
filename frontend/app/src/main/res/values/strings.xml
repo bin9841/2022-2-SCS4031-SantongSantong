@@ -2,8 +2,8 @@
     <string name="app_name">frontend</string>
 
     <string-array name="area">
-        <item>A</item>
-        <item>B</item>
-        <item>C</item>
+        <item>1번</item>
+        <item>2번</item>
+        <item>3번</item>
     </string-array>
 </resources>

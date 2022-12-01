@@ -5,22 +5,24 @@
     android:background="#eeeeee"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    android:layout_width="300dp">
+    android:layout_width="300dp"
+    android:layout_gravity="center">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
+
         <TextView
-            android:id="@+id/dp_title"
-            android:text="익수자 발견!"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:textColor="#fff"
-            android:background="#999999"
+            android:id="@+id/alert_title"
             android:layout_width="match_parent"
-            android:layout_height="53sp" />
+            android:layout_height="53sp"
+            android:background="#999999"
+            android:gravity="center"
+            android:text="익수자 발견!"
+            android:textColor="#0D47A1"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -29,44 +31,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/drowning_detect"
+            android:id="@+id/alert_content"
             android:textSize="15sp"
             android:textColor="#000"
-            android:text="구역 익수자 발견. 빠른 구조 바람."
+            android:text="2번 구역 익수자 발견. 빠른 구조 바람."
             android:gravity="center"
             android:layout_marginBottom="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/drowning_photo"
-            tools:srcCompat="@tools:sample/avatars"
-            android:gravity="center"/>
-    </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        <ImageView
+            android:id="@+id/drowning_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:gravity="center"
+            android:src="@drawable/img"
+            android:contentDescription="TODO" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn1"
+            android:id="@+id/btn_rsc"
             android:text="구조"
             android:textSize="20sp"
-            android:onClick="rescue"/>
+            />
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn2"
-            android:text="지원 요청"
+            android:id="@+id/btn_rsc_cpt"
+            android:text="구조 완료"
             android:textSize="20sp"
-            android:onClick="support"/>
+            android:enabled="false"
+            />
+
     </LinearLayout>
+
+
 </LinearLayout>
