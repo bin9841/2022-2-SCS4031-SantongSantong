@@ -1,7 +1,6 @@
 package com.example.frontend;
 
-import android.content.ContentValues;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,45 +9,46 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PopupActivity extends AppCompatActivity {
-    private ImageView image;
-    private TextView drn_dt;
-    private Button btn1, btn2;
+    ImageView image;
+    TextView alert_title, alert_content;
+    Button btn_rsc, btn_rsc_cpt;
+    Person person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.drown_popup);
 
+        alert_title = findViewById(R.id.alert_title);
+        alert_content = findViewById(R.id.alert_content);
+        btn_rsc = findViewById(R.id.btn_rsc);
+        btn_rsc_cpt = findViewById(R.id.btn_rsc_cpt);
+
         image = findViewById(R.id.drowning_photo);
-        drn_dt = findViewById(R.id.drowning_detect);
-        btn1 = findViewById(R.id.btn1);
-        btn1.setOnClickListener(new View.OnClickListener() {
+
+        btn_rsc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btn_rsc.setEnabled(false);
+                btn_rsc_cpt.setEnabled(true);
+                alert_title.setText("구조 중");
+                alert_content.setText("구조 완료 시, 버튼을 눌러주세요");
+            }
+        });
+
+        btn_rsc_cpt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        btn2 = findViewById(R.id.btn2);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                finish();
-            }
-        });
-
-        String url = "http://www.com";
-
-        PopupActivity.NetworkTask networkTask = new PopupActivity.NetworkTask(url, null);
-        networkTask.execute();
     }
     @Override
     public boolean onTouchEvent(MotionEvent event){
@@ -58,33 +58,13 @@ public class PopupActivity extends AppCompatActivity {
         }
         return  true;
     }
+    // 취소 버튼 X?
     public void onBackPressed(){
         return;
     }
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
-        private String url;
-        private ContentValues values;
 
-        public NetworkTask(String url, ContentValues values){
-            this.url = url;
-            this.values = values;
-        }
-        @Override
-        protected String doInBackground(Void... params){
-            String result; // 요청 결과 저장 변수
-            RequestHttpConnection requestHttpURLConnection = new RequestHttpConnection();
-            // 해당 URL로부터 결과물 받기
-            result = requestHttpURLConnection.request(url, values);
 
-            return result;
-        }
-        @Override
-        protected void onPostExecute(String s){
-            super.onPostExecute(s);
 
-            // doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s 출력
-            drn_dt.setText(((MainActivity)MainActivity.context_main).selected_area+"구역 익수자 발견!");
-        }
-    }
 }
+
