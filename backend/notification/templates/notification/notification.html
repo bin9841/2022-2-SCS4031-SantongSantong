@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>Notification</title>
+</head>
+
+<body>
+  <h2 id="rescue-area"></h2>
+  <h3 id="rescue-alarm"></h3>
+  <img id="rescue-img">
+  <div><input id="rescue-submit" type="button" value="request"></div>
+  {{ area_name|json_script:"area-name" }}
+  <script type="module">
+    const areaName = JSON.parse(document.getElementById('area-name').textContent);
+    document.querySelector("#rescue-area").textContent = "구조구역" + areaName;
+
+    const socket = new WebSocket(
+      "ws://"
+      + window.location.host
+      + "/ws/notification/"
+      + areaName
+      + "/",
+    );
+
+    socket.onopen = function (e) {
+      // console.log(e);
+      console.log("서버와 연결되었습니다.");
+    };
+
+    socket.onmessage = function (e) {
+      console.log("이벤트가 발생했습니다")
+      console.log(e)
+      const data = JSON.parse(e.data)
+      console.log(data)
+      document.querySelector("#rescue-alarm").textContent = "1번 풀에서 익수 위험자 발생"
+      document.querySelector('#rescue-img').src = "{% static 'drowning.jpg' %}"
+    };
+
+
+    document.querySelector("#rescue-submit").addEventListener("click", (e) => {
+            let message = "request"
+            socket.send(JSON.stringify({
+                'message' : message
+            }));
+        });
+
+    // export default {
+    //   name: "DashBoardAlarmCard",
+    //   props: {
+    //     alarmList: Array
+    //   },
+    //   methods: {
+    //     createWebSocket() {
+    //       socket.onopen = function (e) {
+    //         console.log('서버와 연결되었습니다.')
+    //       };
+    //     },
+    //   },
+    //   created() {
+    //     this.createWebSocket()
+    //   }
+    // }
+
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Index</title>
+</head>
+
+<body>
+    What's your area would you like to enter?<br>
+    <input id="area-name-input" type="text" size="100"><br>
+    <input id="area-name-submit" type="button" value="Enter">
+
+    <script>
+        document.querySelector('#area-name-input').focus();
+        document.querySelector('#area-name-input').onkeyup = function (e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#area-name-submit').click();
+            }
+        };
+
+        document.querySelector('#area-name-submit').onclick = function (e) {
+            var roomName = document.querySelector('#area-name-input').value;
+            window.location.pathname = '/notification/' + roomName + '/';
+        };
+    </script>
+</body>
+
+</html>
