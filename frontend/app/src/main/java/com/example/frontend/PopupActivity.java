@@ -15,7 +15,7 @@ public class PopupActivity extends AppCompatActivity {
     ImageView image;
     TextView alert_title, alert_content;
     Button btn_rsc, btn_rsc_cpt;
-    Person person;
+    PostItem rescue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
