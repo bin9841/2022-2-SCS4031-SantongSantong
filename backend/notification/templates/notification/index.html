@@ -4,12 +4,52 @@
 <head>
     <meta charset="utf-8" />
     <title>Index</title>
+    <style>
+        .center_1 {
+            margin: auto;
+            width: fit-content;
+            padding: 10px;
+        }
+        .center_2{
+            margin: auto;
+            width: 100px;
+            display:block;
+        }
+    </style>
 </head>
 
 <body>
-    What's your area would you like to enter?<br>
-    <input id="area-name-input" type="text" size="100"><br>
-    <input id="area-name-submit" type="button" value="Enter">
+    <p>
+        <h1 style="text-align: center; font-size:150%;">
+            <span style="border: 5px double #DCDCDC; padding: 0.4em;">
+                근무 구역을 입력해주세요.
+            </h1>
+        </span>
+    </p>
+    
+    <div class="center_1">
+        <p>
+            <h2>
+                <input
+                id="area-name-input"
+                type="text"
+                size="30"
+                ><br>
+            </h2>
+        </p>    
+    </div>
+
+    <div style="text-align: center;;">
+        <p>
+            <h3>
+                <input
+                id="area-name-submit"
+                type="button"
+                value=" 입 력 ">
+            </h3>
+        </p>
+    </div>
+
 
     <script>
         document.querySelector('#area-name-input').focus();
